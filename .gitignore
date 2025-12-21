@@ -1,0 +1,46 @@
+# --- CLion / JetBrains IDE ---
+# Project-specific settings
+.idea/
+
+# Keep the shared run configurations if you use them, but ignore user-specific ones
+!.idea/runConfigurations/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/shelf/
+.idea/dictionaries/
+
+# --- CMake Build Artifacts ---
+# Typical build directories (often created by CLion or manually)
+cmake-build-*/
+build/
+bin/
+lib/
+
+# Generated CMake files (if building in-source, which is not recommended but happens)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+Testing/
+
+# --- Compiled Object Files & Executables ---
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+*.out
+*.app
+
+# --- OS Specific Files ---
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
