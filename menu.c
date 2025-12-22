@@ -25,3 +25,25 @@ void update_menu(const menu_t *menu) {
         wattroff(menu->window, A_REVERSE);
     }
 }
+
+void process_menu_input(menu_t *menu) {
+    keypad(menu->window, true);
+
+    while (1) {
+        update_menu(menu);
+
+        const int input = wgetch(menu->window);
+
+        if (input == 10 || input == KEY_ENTER) {
+            break;
+        }
+
+        if (input == KEY_UP) {
+            menu->selected = (menu->selected == 0) ? 0 : menu->selected - 1;
+        } else if (input == KEY_DOWN) {
+            menu->selected = (menu->selected + 1 > menu->number_of_items - 1) ? menu->selected : menu->selected + 1;
+        }
+    }
+
+    menu->actions[menu->selected]();
+}
