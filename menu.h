@@ -17,5 +17,6 @@ typedef struct Menu {
 } menu_t;
 
 menu_t *create_menu(int columns, point_t point, size_t number_of_items, char *options[number_of_items], void (*actions[number_of_items])());
+void update_menu(const menu_t *menu);
 
 #endif //SNAKE_MENU_H

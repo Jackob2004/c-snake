@@ -15,3 +15,13 @@ menu_t *create_menu(int columns, point_t point, size_t number_of_items, char *op
 
     return menu;
 }
+
+void update_menu(const menu_t *menu) {
+    for (int i = 0; i < menu->number_of_items; i++) {
+        if (i == menu->selected) {
+            wattron(menu->window, A_REVERSE);
+        }
+        mvwprintw(menu->window,i+1, 1, "%s", menu->options[i]);
+        wattroff(menu->window, A_REVERSE);
+    }
+}
