@@ -12,7 +12,7 @@ void update_menu(const menu_t *menu) {
     }
 }
 
-menu_t *create_menu(int columns, point_t point, size_t number_of_items, char *options[number_of_items], void (*actions[number_of_items])()) {
+menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, MenuAction *actions) {
     menu_t *menu = (menu_t *)malloc(sizeof(menu_t));
     menu->number_of_items = number_of_items;
     menu->options = options;

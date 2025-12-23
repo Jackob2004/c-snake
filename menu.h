@@ -3,6 +3,8 @@
 
 #include <ncurses.h>
 
+typedef void (*MenuAction)(void);
+
 typedef struct Point {
     short unsigned int x;
     short unsigned int y;
@@ -13,10 +15,10 @@ typedef struct Menu {
     size_t selected;
     char **options;
     WINDOW *window;
-    void (**actions)();
+    MenuAction *actions;
 } menu_t;
 
-menu_t *create_menu(int columns, point_t point, size_t number_of_items, char *options[number_of_items], void (*actions[number_of_items])());
+menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, MenuAction *actions);
 void process_menu_input(menu_t *menu);
 void destroy_menu(menu_t *menu);
 
