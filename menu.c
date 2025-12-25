@@ -44,7 +44,7 @@ menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **o
     return menu;
 }
 
-void process_menu_input(menu_t *menu) {
+MenuAction process_menu_input(menu_t *menu) {
     mvwprintw(menu->window, 0, 0, "%s", menu->title);
     keypad(menu->window, true);
 
@@ -64,7 +64,7 @@ void process_menu_input(menu_t *menu) {
         }
     }
 
-    menu->actions[menu->selected]();
+    return menu->actions[menu->selected];
 }
 
 void destroy_menu(menu_t *menu) {
