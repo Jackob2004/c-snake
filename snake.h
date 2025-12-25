@@ -8,10 +8,10 @@
 typedef struct SnakeBody {
     double x;
     double y;
-    double x_direction;
-    double y_direction;
     char *symbol;
     int color_pair;
+    signed int x_direction : 2;
+    signed int y_direction : 2;
 } body_part_t;
 
 typedef struct Snake {
@@ -23,7 +23,7 @@ typedef struct Snake {
 
 snake_t *create_snake(double speed, double x_start, double y_start);
 void grow_snake(snake_t *snake);
-void update_snake(snake_t *snake);
+void update_snake(const snake_t *snake);
 void render_snake(WINDOW *window, const snake_t *snake);
 void change_snake_direction(const snake_t *snake, int key_code);
 

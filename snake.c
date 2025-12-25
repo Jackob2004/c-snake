@@ -65,7 +65,7 @@ void grow_snake(snake_t *snake) {
     snake->length++;
 }
 
-void update_snake(snake_t *snake) {
+void update_snake(const snake_t *snake) {
     for (int i = 0; i < snake->length; i++) {
         snake->body[i]->x += snake->body[i]->x_direction;
         snake->body[i]->y += snake->body[i]->y_direction;
@@ -88,8 +88,8 @@ void render_snake(WINDOW *window, const snake_t *snake) {
 }
 
 void change_snake_direction(const snake_t *snake, const int key_code) {
-    const double curr_x_dir = snake->body[0]->x_direction;
-    const double curr_y_dir = snake->body[0]->y_direction;
+    const int curr_x_dir = snake->body[0]->x_direction;
+    const int curr_y_dir = snake->body[0]->y_direction;
 
     switch (key_code) {
         case KEY_UP:
