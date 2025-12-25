@@ -4,6 +4,10 @@ void add_trailing_spaces(const size_t number_of_items, const int max_length, cha
     for (int i = 0; i < number_of_items; i++) {
         char *new_option_ptr = malloc(max_length + 1 * sizeof(char));
 
+        if (new_option_ptr == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
         memset(new_option_ptr, ' ', max_length);
         new_option_ptr[max_length] = '\0';
 
@@ -27,6 +31,9 @@ void update_menu(const menu_t *menu) {
 
 menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, char *title, MenuAction *actions) {
     menu_t *menu = (menu_t *)malloc(sizeof(menu_t));
+    if (menu == NULL) {
+        exit(EXIT_FAILURE);
+    }
     menu->number_of_items = number_of_items;
     menu->options = options;
     menu->title = title;

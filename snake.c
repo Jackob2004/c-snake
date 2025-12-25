@@ -2,14 +2,26 @@
 
 snake_t *create_snake(const double speed, const double x_start, const double y_start) {
     snake_t *snake = malloc(sizeof(snake_t));
+
+    if (snake == NULL) {
+        exit(EXIT_FAILURE);
+    }
     snake->speed = speed;
     snake->length = 0;
     snake->capacity = 10;
 
     snake->body = malloc(sizeof(body_part_t) * snake->capacity);
 
+    if (snake->body == NULL) {
+        exit(EXIT_FAILURE);
+    }
+
     for (int i = 0; i < 3; i++) {
         body_part_t *body_part = malloc(sizeof(body_part_t));
+
+        if (body_part == NULL) {
+            exit(EXIT_FAILURE);
+        }
 
         body_part->x = x_start - i;
         body_part->y = y_start;
