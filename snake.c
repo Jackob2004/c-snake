@@ -1,12 +1,11 @@
 #include "snake.h"
 
-snake_t *create_snake(const double speed, const int x_start, const int y_start) {
+snake_t *create_snake(const int x_start, const int y_start) {
     snake_t *snake = malloc(sizeof(snake_t));
 
     if (snake == NULL) {
         exit(EXIT_FAILURE);
     }
-    snake->speed = speed;
     snake->length = 0;
     snake->capacity = 10;
 
@@ -66,24 +65,23 @@ void grow_snake(snake_t *snake) {
 }
 
 void update_snake(const snake_t *snake) {
-    for (int i = 0; i < snake->length; i++) {
-        snake->body[i]->x += snake->body[i]->x_direction;
-        snake->body[i]->y += snake->body[i]->y_direction;
+    for (int i = (int)snake->length - 1; i > 0; i--) {
+        snake->body[i]->x = snake->body[i - 1]->x;
+        snake->body[i]->y = snake->body[i - 1]->y;
+
+        snake->body[i]->x_direction = snake->body[i - 1]->x_direction;
+        snake->body[i]->y_direction = snake->body[i - 1]->y_direction;
     }
 
-    for (int i = (int)snake->length - 1; i > 0 ; i--) {
-        if (snake->body[i]->x_direction != snake->body[i - 1]->x_direction || snake->body[i]->y_direction != snake->body[i - 1]->y_direction) {
-            snake->body[i]->x_direction = snake->body[i - 1]->x_direction;
-            snake->body[i]->y_direction = snake->body[i - 1]->y_direction;
-        }
-    }
+    snake->body[0]->x += snake->body[0]->x_direction;
+    snake->body[0]->y += snake->body[0]->y_direction;
 }
 
 void render_snake(WINDOW *window, const snake_t *snake) {
     for (int i = 0; i < snake->length; i++) {
-        attron(COLOR_PAIR(snake->body[i]->color_pair));
-        mvwprintw(window, (int)snake->body[i]->y, (int)snake->body[i]->x, "%s", snake->body[i]->symbol);
-        attroff(COLOR_PAIR(snake->body[i]->color_pair));
+        wattron(window, COLOR_PAIR(snake->body[i]->color_pair));
+        mvwprintw(window, snake->body[i]->y, snake->body[i]->x, "%s", snake->body[i]->symbol);
+        wattroff(window, COLOR_PAIR(snake->body[i]->color_pair));
     }
 }
 
