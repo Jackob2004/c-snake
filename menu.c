@@ -25,10 +25,11 @@ void update_menu(const menu_t *menu) {
     }
 }
 
-menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, MenuAction *actions) {
+menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, char *title, MenuAction *actions) {
     menu_t *menu = (menu_t *)malloc(sizeof(menu_t));
     menu->number_of_items = number_of_items;
     menu->options = options;
+    menu->title = title;
     menu->actions = actions;
 
     const int OPTION_LENGTH = columns - 2;
@@ -44,6 +45,7 @@ menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **o
 }
 
 void process_menu_input(menu_t *menu) {
+    mvwprintw(menu->window, 0, 0, "%s", menu->title);
     keypad(menu->window, true);
 
     while (1) {

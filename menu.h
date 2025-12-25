@@ -16,11 +16,12 @@ typedef struct Menu {
     size_t number_of_items;
     size_t selected;
     char **options;
+    char *title;
     WINDOW *window;
     MenuAction *actions;
 } menu_t;
 
-menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, MenuAction *actions);
+menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, char *title, MenuAction *actions);
 void process_menu_input(menu_t *menu);
 void destroy_menu(menu_t *menu);
 
