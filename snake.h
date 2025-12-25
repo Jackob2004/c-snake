@@ -21,10 +21,11 @@ typedef struct Snake {
     body_part_t **body;
 } snake_t;
 
-snake_t *create_snake(double speed, double x_start, double y_start);
+snake_t *create_snake(double speed, int x_start, int y_start);
 void grow_snake(snake_t *snake);
 void update_snake(const snake_t *snake);
 void render_snake(WINDOW *window, const snake_t *snake);
 void change_snake_direction(const snake_t *snake, int key_code);
+void destroy_snake(snake_t *snake);
 
 #endif //SNAKE_SNAKE_H

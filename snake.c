@@ -1,6 +1,6 @@
 #include "snake.h"
 
-snake_t *create_snake(const double speed, const double x_start, const double y_start) {
+snake_t *create_snake(const double speed, const int x_start, const int y_start) {
     snake_t *snake = malloc(sizeof(snake_t));
 
     if (snake == NULL) {
@@ -114,4 +114,13 @@ void change_snake_direction(const snake_t *snake, const int key_code) {
             break;
         default: ;
     }
+}
+
+void destroy_snake(snake_t *snake) {
+    for (int i = 0; i < snake->length; i++) {
+        free(snake->body[i]);
+    }
+
+    free(snake->body);
+    free(snake);
 }
