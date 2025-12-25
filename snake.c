@@ -72,3 +72,32 @@ void render_snake(WINDOW *window, const snake_t *snake) {
         attroff(COLOR_PAIR(snake->body[i]->color_pair));
     }
 }
+
+void change_snake_direction(const snake_t *snake, const int key_code) {
+    const double curr_x_dir = snake->body[0]->x_direction;
+    const double curr_y_dir = snake->body[0]->y_direction;
+
+    switch (key_code) {
+        case KEY_UP:
+            if (curr_y_dir == 1) break;
+            snake->body[0]->y_direction = -1;
+            snake->body[0]->x_direction = 0;
+            break;
+        case KEY_DOWN:
+            if (curr_y_dir == -1) break;
+            snake->body[0]->y_direction = 1;
+            snake->body[0]->x_direction = 0;
+            break;
+        case KEY_LEFT:
+            if (curr_x_dir == 1) break;
+            snake->body[0]->x_direction = -1;
+            snake->body[0]->y_direction = 0;
+            break;
+        case KEY_RIGHT:
+            if (curr_x_dir == -1) break;
+            snake->body[0]->y_direction = 0;
+            snake->body[0]->x_direction = 1;
+            break;
+        default: ;
+    }
+}
