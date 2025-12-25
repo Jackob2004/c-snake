@@ -2,6 +2,8 @@
 #define SNAKE_MENU_H
 
 #include <ncurses.h>
+#include <string.h>
+#include <stdlib.h>
 
 typedef void (*MenuAction)(void);
 
