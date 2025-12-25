@@ -27,7 +27,8 @@ snake_t *create_snake(const double speed, const double x_start, const double y_s
         body_part->y = y_start;
         body_part->x_direction = 1;
         body_part->y_direction = 0;
-        body_part->symbol = '*';
+        body_part->symbol = "*";
+        body_part->color_pair = 1;
 
         snake->body[i] = body_part;
         snake->length++;
@@ -53,7 +54,8 @@ void grow_snake(snake_t *snake) {
         exit(EXIT_FAILURE);
     }
     const body_part_t *next = snake->body[snake->length - 1];
-    body_part->symbol = '*';
+    body_part->symbol = "*";
+    body_part->color_pair = 1;
     body_part->x_direction = next->x_direction;
     body_part->y_direction = next->y_direction;
     body_part->x = next->x - next->x_direction;
@@ -61,4 +63,12 @@ void grow_snake(snake_t *snake) {
 
     snake->body[snake->length] = body_part;
     snake->length++;
+}
+
+void render_snake(WINDOW *window, const snake_t *snake) {
+    for (int i = 0; i < snake->length; i++) {
+        attron(COLOR_PAIR(snake->body[i]->color_pair));
+        mvwprintw(window, (int)snake->body[i]->y, (int)snake->body[i]->x, "%s", snake->body[i]->symbol);
+        attroff(COLOR_PAIR(snake->body[i]->color_pair));
+    }
 }
