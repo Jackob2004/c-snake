@@ -65,6 +65,20 @@ void grow_snake(snake_t *snake) {
     snake->length++;
 }
 
+void update_snake(snake_t *snake) {
+    for (int i = 0; i < snake->length; i++) {
+        snake->body[i]->x += snake->body[i]->x_direction;
+        snake->body[i]->y += snake->body[i]->y_direction;
+    }
+
+    for (int i = (int)snake->length - 1; i > 0 ; i--) {
+        if (snake->body[i]->x_direction != snake->body[i - 1]->x_direction || snake->body[i]->y_direction != snake->body[i - 1]->y_direction) {
+            snake->body[i]->x_direction = snake->body[i - 1]->x_direction;
+            snake->body[i]->y_direction = snake->body[i - 1]->y_direction;
+        }
+    }
+}
+
 void render_snake(WINDOW *window, const snake_t *snake) {
     for (int i = 0; i < snake->length; i++) {
         attron(COLOR_PAIR(snake->body[i]->color_pair));
