@@ -114,6 +114,21 @@ void change_snake_direction(const snake_t *snake, const int key_code) {
     }
 }
 
+bool collides_snake_head(const snake_t *snake, const int x, const int y) {
+    const body_part_t *head = snake->body[0];
+    return head->x == x && head->y == y;
+}
+
+bool snake_collides_itself(const snake_t *snake) {
+    for (int i = 1; i < snake->length; i++) {
+        if (collides_snake_head(snake, snake->body[i]->x, snake->body[i]->y)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void destroy_snake(snake_t *snake) {
     for (int i = 0; i < snake->length; i++) {
         free(snake->body[i]);
