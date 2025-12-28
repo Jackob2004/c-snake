@@ -9,6 +9,12 @@ include_directories(${CURSES_INCLUDE_DIRS})
 
 add_executable(snake main.c
         menu.c
-        menu.h)
+        menu.h
+        snake.c
+        snake.h
+        game.c
+        game.h
+        apple.c
+        apple.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})

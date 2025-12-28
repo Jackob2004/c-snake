@@ -4,9 +4,21 @@
 #include "snake.h"
 #include <time.h>
 
+#include "apple.h"
+
+typedef enum GAME_STATUS {
+    RUNNING,
+    OVER,
+    PAUSED
+} game_status_t;
+
 typedef struct GameState {
     snake_t *snake;
+    apple_t *apple;
+    game_status_t status;
     WINDOW *game_window;
+    int window_height;
+    int window_width;
 } game_state_t;
 
 void start_game_loop();

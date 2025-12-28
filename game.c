@@ -7,6 +7,7 @@ game_state_t *init_game() {
     }
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLACK);
 
     int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
@@ -21,22 +22,51 @@ game_state_t *init_game() {
     nodelay(game_state->game_window, TRUE);
     keypad(game_state->game_window, TRUE);
 
+    game_state->status = RUNNING;
+    getmaxyx(game_state->game_window, game_state->window_height, game_state->window_width);
+
     game_state->snake = create_snake(5,5);
+    game_state->apple = create_apple();
+    respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
 
     return game_state;
 }
 
-void process_input(const game_state_t *game_state, const int key) {
-    change_snake_direction(game_state->snake, key);
-    if (key == KEY_BACKSPACE) grow_snake(game_state->snake);
+void game_over(game_state_t *game_state) {
+    box(game_state->game_window, 0, 0);
+    mvwprintw(game_state->game_window, 0,0,"GAME OVER");
+    wrefresh(game_state->game_window);
+    game_state->status = OVER;
 }
 
-void update(const game_state_t *game_state) {
+void process_input(game_state_t *game_state, const int key) {
+    if (key == 'q') {
+        game_state->status = OVER;
+    }
+    change_snake_direction(game_state->snake, key);
+}
+
+void update(game_state_t *game_state) {
+    if (collides_snake_head(game_state->snake, game_state->apple->x, game_state->apple->y)) {
+        respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
+        grow_snake(game_state->snake);
+    }
+
+    if (snake_collides_itself(game_state->snake)) {
+        game_over(game_state);
+    }
+
+    const body_part_t *head = game_state->snake->body[0];
+    if (head->x >= game_state->window_width - 1 || head->x <= 0 || head->y >= game_state->window_height - 1 || head->y <= 0) {
+        game_over(game_state);
+    }
+
     update_snake(game_state->snake);
 }
 
 void render(const game_state_t *game_state) {
     render_snake(game_state->game_window, game_state->snake);
+    render_apple(game_state->apple, game_state->game_window);
     box(game_state->game_window, 0, 0);
 }
 
@@ -47,9 +77,10 @@ void start_game_loop() {
     struct timespec last_time;
     clock_gettime(CLOCK_MONOTONIC, &last_time);
     double lag = 0.0;
-    int input;
-    while ((input = wgetch(game_state->game_window)) != 'q') {
+    while (game_state->status == RUNNING) {
+        const int input = wgetch(game_state->game_window);
         werase(game_state->game_window);
+
         struct timespec current_time;
         clock_gettime(CLOCK_MONOTONIC, &current_time);
         const double elapsed = (double)(current_time.tv_sec - last_time.tv_sec) * 1000.0 +
@@ -68,6 +99,7 @@ void start_game_loop() {
     }
 
     destroy_snake(game_state->snake);
+    destroy_apple(game_state->apple);
     delwin(game_state->game_window);
     free(game_state);
 }
