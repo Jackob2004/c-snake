@@ -15,6 +15,7 @@ add_executable(snake main.c
         game.c
         game.h
         apple.c
-        apple.h)
+        apple.h
+        point.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})

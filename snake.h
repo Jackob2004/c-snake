@@ -4,24 +4,24 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include "point.h"
 
 typedef struct SnakeBody {
-    int x;
-    int y;
     char *symbol;
     int color_pair;
+    point_t position;
 } body_part_t;
 
 typedef struct Snake {
     size_t capacity;
     size_t length;
     body_part_t **body;
-    body_part_t ghost_tail;
+    point_t ghost_tail_position;
     signed int x_direction : 2;
     signed int y_direction : 2;
 } snake_t;
 
-snake_t *create_snake(int x_start, int y_start);
+snake_t *create_snake(point_t spawn_point);
 void grow_snake(snake_t *snake);
 void update_snake(snake_t *snake);
 void render_snake(WINDOW *window, const snake_t *snake);

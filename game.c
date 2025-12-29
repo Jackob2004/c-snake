@@ -25,7 +25,8 @@ game_state_t *init_game() {
     game_state->status = RUNNING;
     getmaxyx(game_state->game_window, game_state->window_height, game_state->window_width);
 
-    game_state->snake = create_snake(5,5);
+    const point_t spawn_point = {5,5};
+    game_state->snake = create_snake(spawn_point);
     game_state->apple = create_apple();
     respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
 
@@ -47,7 +48,7 @@ void process_input(game_state_t *game_state, const int key) {
 }
 
 void update(game_state_t *game_state) {
-    if (collides_snake_head(game_state->snake, game_state->apple->x, game_state->apple->y)) {
+    if (collides_snake_head(game_state->snake, game_state->apple->position.x, game_state->apple->position.y)) {
         respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
         grow_snake(game_state->snake);
     }
@@ -57,8 +58,8 @@ void update(game_state_t *game_state) {
     }
 
     const body_part_t *head = game_state->snake->body[0];
-    const bool reached_map_boundaries = head->x >= game_state->window_width - 1 || head->x <= 0 ||
-        head->y >= game_state->window_height - 1 || head->y <= 0;
+    const bool reached_map_boundaries = head->position.x >= game_state->window_width - 1 || head->position.x <= 0 ||
+        head->position.y >= game_state->window_height - 1 || head->position.y <= 0;
 
     if (reached_map_boundaries) {
         game_over(game_state);

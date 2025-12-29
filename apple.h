@@ -3,10 +3,10 @@
 
 #include <ncurses.h>
 #include <stdbool.h>
+#include "point.h"
 
 typedef struct Apple {
-    int x;
-    int y;
+    point_t position;
     char *symbol;
     int color_pair;
     bool is_alive;

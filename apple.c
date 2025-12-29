@@ -20,8 +20,8 @@ void respawn_apple(apple_t *apple, const int maxX, const int maxY) {
     const int x = (rand() % (maxX - 2)) + 1;
     const int y = (rand() % (maxY - 2)) + 1;
 
-    apple->x = x;
-    apple->y = y;
+    apple->position.x = x;
+    apple->position.y = y;
     apple->is_alive = true;
 }
 
@@ -29,7 +29,7 @@ void render_apple(const apple_t *apple, WINDOW *win) {
     if (!apple->is_alive) return;
 
     wattron(win, COLOR_PAIR(apple->color_pair));
-    mvwprintw(win, apple->y, apple->x, "%s", apple->symbol);
+    mvwprintw(win, apple->position.y, apple->position.x, "%s", apple->symbol);
     wattroff(win, COLOR_PAIR(apple->color_pair));
 }
 
