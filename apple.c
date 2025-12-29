@@ -26,6 +26,8 @@ void respawn_apple(apple_t *apple, const int maxX, const int maxY) {
 }
 
 void render_apple(const apple_t *apple, WINDOW *win) {
+    if (!apple->is_alive) return;
+
     wattron(win, COLOR_PAIR(apple->color_pair));
     mvwprintw(win, apple->y, apple->x, "%s", apple->symbol);
     wattroff(win, COLOR_PAIR(apple->color_pair));
