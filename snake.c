@@ -24,14 +24,17 @@ snake_t *create_snake(const int x_start, const int y_start) {
 
         body_part->x = x_start - i;
         body_part->y = y_start;
-        body_part->x_direction = 1;
-        body_part->y_direction = 0;
         body_part->symbol = "*";
         body_part->color_pair = 1;
 
         snake->body[i] = body_part;
         snake->length++;
     }
+
+    snake->x_direction = 1;
+    snake->y_direction = 0;
+    const body_part_t tail = {snake->body[snake->length - 1]->x, snake->body[snake->length - 1]->y};
+    snake->ghost_tail = tail;
 
     return snake;
 }
@@ -52,29 +55,27 @@ void grow_snake(snake_t *snake) {
     if (snake->body == NULL) {
         exit(EXIT_FAILURE);
     }
-    const body_part_t *next = snake->body[snake->length - 1];
+
     body_part->symbol = "*";
     body_part->color_pair = 1;
-    body_part->x_direction = next->x_direction;
-    body_part->y_direction = next->y_direction;
-    body_part->x = next->x - next->x_direction;
-    body_part->y = next->y - next->y_direction;
+    body_part->x = snake->ghost_tail.x;
+    body_part->y = snake->ghost_tail.y;
 
     snake->body[snake->length] = body_part;
     snake->length++;
 }
 
-void update_snake(const snake_t *snake) {
+void update_snake(snake_t *snake) {
+    snake->ghost_tail.x = snake->body[snake->length - 1]->x;
+    snake->ghost_tail.y = snake->body[snake->length - 1]->y;
+
     for (int i = (int)snake->length - 1; i > 0; i--) {
         snake->body[i]->x = snake->body[i - 1]->x;
         snake->body[i]->y = snake->body[i - 1]->y;
-
-        snake->body[i]->x_direction = snake->body[i - 1]->x_direction;
-        snake->body[i]->y_direction = snake->body[i - 1]->y_direction;
     }
 
-    snake->body[0]->x += snake->body[0]->x_direction;
-    snake->body[0]->y += snake->body[0]->y_direction;
+    snake->body[0]->x += snake->x_direction;
+    snake->body[0]->y += snake->y_direction;
 }
 
 void render_snake(WINDOW *window, const snake_t *snake) {
@@ -85,30 +86,27 @@ void render_snake(WINDOW *window, const snake_t *snake) {
     }
 }
 
-void change_snake_direction(const snake_t *snake, const int key_code) {
-    const int curr_x_dir = snake->body[0]->x_direction;
-    const int curr_y_dir = snake->body[0]->y_direction;
-
+void change_snake_direction(snake_t *snake, const int key_code) {
     switch (key_code) {
         case KEY_UP:
-            if (curr_y_dir == 1) break;
-            snake->body[0]->y_direction = -1;
-            snake->body[0]->x_direction = 0;
+            if (snake->y_direction == 1) break;
+            snake->y_direction = -1;
+            snake->x_direction = 0;
             break;
         case KEY_DOWN:
-            if (curr_y_dir == -1) break;
-            snake->body[0]->y_direction = 1;
-            snake->body[0]->x_direction = 0;
+            if (snake->y_direction == -1) break;
+            snake->y_direction = 1;
+            snake->x_direction = 0;
             break;
         case KEY_LEFT:
-            if (curr_x_dir == 1) break;
-            snake->body[0]->x_direction = -1;
-            snake->body[0]->y_direction = 0;
+            if (snake->x_direction == 1) break;
+            snake->x_direction = -1;
+            snake->y_direction = 0;
             break;
         case KEY_RIGHT:
-            if (curr_x_dir == -1) break;
-            snake->body[0]->y_direction = 0;
-            snake->body[0]->x_direction = 1;
+            if (snake->x_direction == -1) break;
+            snake->y_direction = 0;
+            snake->x_direction = 1;
             break;
         default: ;
     }
