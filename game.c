@@ -57,7 +57,10 @@ void update(game_state_t *game_state) {
     }
 
     const body_part_t *head = game_state->snake->body[0];
-    if (head->x >= game_state->window_width - 1 || head->x <= 0 || head->y >= game_state->window_height - 1 || head->y <= 0) {
+    const bool reached_map_boundaries = head->x >= game_state->window_width - 1 || head->x <= 0 ||
+        head->y >= game_state->window_height - 1 || head->y <= 0;
+
+    if (reached_map_boundaries) {
         game_over(game_state);
     }
 
@@ -68,6 +71,13 @@ void render(const game_state_t *game_state) {
     render_snake(game_state->game_window, game_state->snake);
     render_apple(game_state->apple, game_state->game_window);
     box(game_state->game_window, 0, 0);
+}
+
+void game_clear_up(game_state_t *game_state) {
+    destroy_snake(game_state->snake);
+    destroy_apple(game_state->apple);
+    delwin(game_state->game_window);
+    free(game_state);
 }
 
 void start_game_loop() {
@@ -98,8 +108,5 @@ void start_game_loop() {
         render(game_state);
     }
 
-    destroy_snake(game_state->snake);
-    destroy_apple(game_state->apple);
-    delwin(game_state->game_window);
-    free(game_state);
+    game_clear_up(game_state);
 }
