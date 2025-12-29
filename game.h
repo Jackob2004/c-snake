@@ -19,6 +19,7 @@ typedef struct GameState {
     WINDOW *game_window;
     int window_height;
     int window_width;
+    int score;
 } game_state_t;
 
 void start_game_loop();

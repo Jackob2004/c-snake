@@ -23,6 +23,7 @@ game_state_t *init_game() {
     keypad(game_state->game_window, TRUE);
 
     game_state->status = RUNNING;
+    game_state->score = 0;
     getmaxyx(game_state->game_window, game_state->window_height, game_state->window_width);
 
     const point_t spawn_point = {5,5};
@@ -35,7 +36,7 @@ game_state_t *init_game() {
 
 void game_over(game_state_t *game_state) {
     box(game_state->game_window, 0, 0);
-    mvwprintw(game_state->game_window, 0,0,"GAME OVER");
+    mvwprintw(game_state->game_window, 0,0,"GAME OVER!!! Final Score: %d", game_state->score);
     wrefresh(game_state->game_window);
     game_state->status = OVER;
 }
@@ -51,6 +52,7 @@ void update(game_state_t *game_state) {
     if (collides_snake_head(game_state->snake, game_state->apple->position.x, game_state->apple->position.y)) {
         respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
         grow_snake(game_state->snake);
+        game_state->score += 1;
     }
 
     if (snake_collides_itself(game_state->snake)) {
@@ -72,6 +74,7 @@ void render(const game_state_t *game_state) {
     render_snake(game_state->game_window, game_state->snake);
     render_apple(game_state->apple, game_state->game_window);
     box(game_state->game_window, 0, 0);
+    mvwprintw(game_state->game_window, 0,0,"Score: %d", game_state->score);
 }
 
 void game_clear_up(game_state_t *game_state) {
