@@ -34,6 +34,25 @@ game_state_t *init_game() {
     return game_state;
 }
 
+void play_again_menu() {
+    int maxX;
+    getmaxyx(stdscr, maxX, maxX);
+
+    const int COLUMNS = 50;
+    const point_t spawn_point = {maxX / 2 - (COLUMNS / 2), 5};
+    char *options[] = {"Yes", "No"};
+    MenuAction actions[] = {start_game_loop, main_menu};
+
+    menu_t *menu = create_menu(COLUMNS, spawn_point, 2, options, "Do you want to play again ?", actions);
+
+    const MenuAction chosen_action = process_menu_input(menu);
+    destroy_menu(menu);
+
+    clear();
+    refresh();
+    chosen_action();
+}
+
 void game_over(game_state_t *game_state) {
     box(game_state->game_window, 0, 0);
     mvwprintw(game_state->game_window, 0,0,"GAME OVER!!! Final Score: %d", game_state->score);
@@ -113,4 +132,5 @@ void start_game_loop() {
     }
 
     game_clear_up(game_state);
+    play_again_menu();
 }

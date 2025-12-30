@@ -3,7 +3,8 @@
 
 #include "snake.h"
 #include <time.h>
-
+#include "main-menu.h"
+#include "menu.h"
 #include "apple.h"
 
 typedef enum GAME_STATUS {
