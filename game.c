@@ -35,11 +35,10 @@ game_state_t *init_game() {
 }
 
 void play_again_menu() {
-    int maxX;
-    getmaxyx(stdscr, maxX, maxX);
-
     const int COLUMNS = 50;
-    const point_t spawn_point = {maxX / 2 - (COLUMNS / 2), 5};
+    point_t spawn_point = calc_middle_position(COLUMNS, 1);
+    spawn_point.y = 5;
+
     char *options[] = {"Yes", "No"};
     MenuAction actions[] = {start_game_loop, main_menu};
 

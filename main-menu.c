@@ -9,11 +9,13 @@ void stop() {
 }
 
 void main_menu() {
-    point_t point = {20, 20};
+    const int COLUMNS = 80;
+    const point_t spawn_point = calc_middle_position(COLUMNS, 5);
     char *options[] = {"Start", "Scoreboard", "Exit"};
     MenuAction actions[] = {start_game_loop, scoreboard, stop};
-    menu_t *menu = create_menu(80, point, 3, options, "Main Menu", actions);
-    MenuAction chosen_action = process_menu_input(menu);
+
+    menu_t *menu = create_menu(COLUMNS, spawn_point, 3, options, "Main Menu", actions);
+    const MenuAction chosen_action = process_menu_input(menu);
     destroy_menu(menu);
 
     clear();
