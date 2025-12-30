@@ -63,18 +63,19 @@ void process_input(game_state_t *game_state, const int key) {
     if (key == 'q') {
         game_state->status = OVER;
     }
+
+    if (key == 'p') {
+        game_state->status = (game_state->status == PAUSED) ? RUNNING : PAUSED;
+        mvwprintw(game_state->game_window, 0,0, "Game Paused");
+    }
+
     change_snake_direction(game_state->snake, key);
 }
 
 void update(game_state_t *game_state) {
-    if (collides_snake_head(game_state->snake, game_state->apple->position.x, game_state->apple->position.y)) {
-        respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
-        grow_snake(game_state->snake);
-        game_state->score += 1;
-    }
-
     if (snake_collides_itself(game_state->snake)) {
         game_over(game_state);
+        return;
     }
 
     const body_part_t *head = game_state->snake->body[0];
@@ -83,6 +84,13 @@ void update(game_state_t *game_state) {
 
     if (reached_map_boundaries) {
         game_over(game_state);
+        return;
+    }
+
+    if (collides_snake_head(game_state->snake, game_state->apple->position.x, game_state->apple->position.y)) {
+        respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
+        grow_snake(game_state->snake);
+        game_state->score += 1;
     }
 
     update_snake(game_state->snake);
@@ -109,8 +117,14 @@ void start_game_loop() {
     struct timespec last_time;
     clock_gettime(CLOCK_MONOTONIC, &last_time);
     double lag = 0.0;
-    while (game_state->status == RUNNING) {
+    while (game_state->status == RUNNING || game_state->status == PAUSED) {
         const int input = wgetch(game_state->game_window);
+
+        process_input(game_state, input);
+        if (game_state->status == PAUSED) {
+            clock_gettime(CLOCK_MONOTONIC, &last_time);
+            continue;
+        }
         werase(game_state->game_window);
 
         struct timespec current_time;
@@ -119,8 +133,6 @@ void start_game_loop() {
             (double)(current_time.tv_nsec - last_time.tv_nsec) / 1000000.0;
         last_time = current_time;
         lag += elapsed;
-
-        process_input(game_state, input);
 
         while (lag >= MS_PER_UPDATE) {
             update(game_state);
