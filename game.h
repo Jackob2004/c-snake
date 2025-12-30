@@ -6,6 +6,7 @@
 #include "main-menu.h"
 #include "menu.h"
 #include "apple.h"
+#include "player.h"
 
 typedef enum GAME_STATUS {
     RUNNING,
@@ -20,7 +21,7 @@ typedef struct GameState {
     WINDOW *game_window;
     int window_height;
     int window_width;
-    int score;
+    player_t player;
 } game_state_t;
 
 void start_game_loop();
