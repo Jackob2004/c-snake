@@ -15,7 +15,7 @@ typedef struct SnakeBody {
 typedef struct Snake {
     size_t capacity;
     size_t length;
-    body_part_t **body;
+    body_part_t *body;
     point_t ghost_tail_position;
     signed int x_direction : 2;
     signed int y_direction : 2;
