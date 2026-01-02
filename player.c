@@ -1,33 +1,5 @@
 #include "player.h"
 
-#include <string.h>
-
-#include "point.h"
-
-char *get_str(const int max_size) {
-    char *str = malloc(sizeof(char) * max_size + 1);
-    int idx = 0;
-
-    nocbreak();
-    echo();
-
-    int c = getch();
-
-    while (c != '\n' && idx < max_size) {
-        str[idx] = (char)c;
-        c = getch();
-        idx++;
-    }
-
-    const int end = (idx < max_size) ? idx : max_size;
-    str[end] = '\0';
-
-    cbreak();
-    noecho();
-
-    return str;
-}
-
 player_t player_from_csv_str(const char *csv_str) {
     player_t player;
 
@@ -140,6 +112,23 @@ void sort_players_by_score(const players_t *players) {
     qsort(players->items, players->length, sizeof(player_t), compare_scores);
 }
 
+char *concatenate(const char *a, const char *b, const char *c) {
+    size_t alen = strlen(a);
+    size_t blen = strlen(b);
+    size_t clen = strlen(c);
+    char *res = malloc(alen + blen + clen + 1);
+
+    if (res == NULL) {
+        exit(EXIT_FAILURE);
+    }
+
+    memcpy(res, a, alen);
+    memcpy(res + alen, b, blen);
+    memcpy(res + alen + blen, c, clen + 1);
+
+    return res;
+}
+
 char *get_player_name() {
     const char info[] = "Enter your name: ";
     const point_t center = calc_middle_position(strlen(info),1);
@@ -191,9 +180,20 @@ int save_player_best_score(player_t player) {
     return best_score;
 }
 
-players_t *get_sorted_players() {
+strings_t *get_sorted_players() {
     players_t *players = load_players_data();
     sort_players_by_score(players);
 
-    return players;
+    strings_t *strings = init_strings();
+
+    for (int i = 0; i < players->length; i++) {
+        char score[10];
+        sprintf(score, "%d", players->items[i].score);
+        char *full_player_info = concatenate(players->items[i].name, " ", score);
+        array_append(strings, full_player_info);
+    }
+
+    destroy_players(players);
+
+    return strings;
 }
