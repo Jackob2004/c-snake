@@ -57,8 +57,10 @@ void play_again_menu() {
 }
 
 void game_over(game_state_t *game_state) {
+    const int player_best_score = save_player_best_score(game_state->player);
     box(game_state->game_window, 0, 0);
-    mvwprintw(game_state->game_window, 0,0,"GAME OVER!!! Final Score: %d", game_state->player.score);
+    mvwprintw(game_state->game_window, 0,0,"GAME OVER!!! %s Final Score: %d Best Score: %d",
+        game_state->player.name, game_state->player.score, player_best_score);
     wrefresh(game_state->game_window);
     game_state->status = OVER;
 }

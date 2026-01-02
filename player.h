@@ -20,5 +20,5 @@ typedef struct Players {
 } players_t;
 
 char *get_player_name();
-void save_player_best_score(player_t player);
+int save_player_best_score(player_t player);
 #endif //SNAKE_PLAYER_H

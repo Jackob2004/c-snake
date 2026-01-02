@@ -105,7 +105,7 @@ void destroy_players(players_t *players) {
     free(players);
 }
 
-players_t *load_players() {
+players_t *load_players_data() {
     players_t *players = create_players();
 
     FILE *file = fopen(STATS_FILE_NAME, "r");
@@ -125,4 +125,55 @@ players_t *load_players() {
     fclose(file);
 
     return players;
+}
+
+void save_players_data(const players_t *players) {
+    FILE *file = fopen(STATS_FILE_NAME, "w");
+
+    for (int i = 0; i < players->length; i++) {
+        fprintf(file, "%s,%d\n", players->items[i].name, players->items[i].score);
+    }
+
+    fclose(file);
+}
+
+int find_player_by_name(const player_t player, const players_t *players) {
+    int idx = -1;
+
+    for (int i = 0; i < players->length; i++) {
+        if (strcmp(players->items[i].name, player.name) == 0) {
+            idx = i;
+            break;
+        }
+    }
+
+    return idx;
+}
+
+int save_player_best_score(player_t player) {
+    players_t *players = load_players_data();
+
+    const int player_idx = find_player_by_name(player, players);
+    bool data_updated = false;
+    int best_score = player.score;
+
+    if (player_idx == -1) {
+        char *name_cpy = strdup(player.name);
+        const player_t p = {name_cpy, player.score};
+        array_append(players, p);
+        data_updated = true;
+    } else if (player.score > players->items[player_idx].score){
+        players->items[player_idx].score = player.score;
+        data_updated = true;
+    } else {
+        best_score = players->items[player_idx].score;
+    }
+
+    if (data_updated) {
+        save_players_data(players);
+    }
+
+    destroy_players(players);
+
+    return best_score;
 }
