@@ -84,7 +84,7 @@ void update(game_state_t *game_state) {
         return;
     }
 
-    const body_part_t head = game_state->snake->body[0];
+    const body_part_t head = game_state->snake->items[0];
     const bool reached_map_boundaries = head.position.x >= game_state->window_width - 1 || head.position.x <= 0 ||
         head.position.y >= game_state->window_height - 1 || head.position.y <= 0;
 
