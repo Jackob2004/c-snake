@@ -28,29 +28,6 @@ char *get_str(const int max_size) {
     return str;
 }
 
-char *get_player_name() {
-    const char info[] = "Enter your name: ";
-    const point_t center = calc_middle_position(strlen(info),1);
-    mvprintw(center.y - 1, center.x, info);
-
-    char underline[MAX_NAME_LENGTH + 1];
-    memset(underline, '_', MAX_NAME_LENGTH);
-    underline[MAX_NAME_LENGTH] = '\0';
-
-    mvprintw(center.y + 1, center.x, "%s", underline);
-    move(center.y + 1, center.x);
-    char *name = get_str(MAX_NAME_LENGTH);
-
-    if (strlen(name) == 0) {
-        strcpy(name, "unknown");
-    }
-
-    clear();
-    refresh();
-
-    return name;
-}
-
 player_t player_from_csv_str(const char *csv_str) {
     player_t player;
 
@@ -150,6 +127,42 @@ int find_player_by_name(const player_t player, const players_t *players) {
     return idx;
 }
 
+int compare_scores(const void *a, const void *b) {
+    const player_t *p1 = a;
+    const player_t *p2 = b;
+
+    return (p1->score - p2->score);
+}
+
+void sort_players_by_score(const players_t *players) {
+    if (!players || players->length < 2) return;
+
+    qsort(players->items, players->length, sizeof(player_t), compare_scores);
+}
+
+char *get_player_name() {
+    const char info[] = "Enter your name: ";
+    const point_t center = calc_middle_position(strlen(info),1);
+    mvprintw(center.y - 1, center.x, info);
+
+    char underline[MAX_NAME_LENGTH + 1];
+    memset(underline, '_', MAX_NAME_LENGTH);
+    underline[MAX_NAME_LENGTH] = '\0';
+
+    mvprintw(center.y + 1, center.x, "%s", underline);
+    move(center.y + 1, center.x);
+    char *name = get_str(MAX_NAME_LENGTH);
+
+    if (strlen(name) == 0) {
+        strcpy(name, "unknown");
+    }
+
+    clear();
+    refresh();
+
+    return name;
+}
+
 int save_player_best_score(player_t player) {
     players_t *players = load_players_data();
 
@@ -176,4 +189,11 @@ int save_player_best_score(player_t player) {
     destroy_players(players);
 
     return best_score;
+}
+
+players_t *get_sorted_players() {
+    players_t *players = load_players_data();
+    sort_players_by_score(players);
+
+    return players;
 }
