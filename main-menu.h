@@ -5,5 +5,5 @@
 #include "point.h"
 #include "menu.h"
 
-void main_menu();
+void main_menu(void *ptr);
 #endif //SNAKE_MAIN_MENU_H

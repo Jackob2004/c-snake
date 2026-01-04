@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "point.h"
 
-typedef void (*MenuAction)(void);
+typedef void (*MenuAction)(void *ptr);
 
 typedef struct Menu {
     size_t number_of_items;

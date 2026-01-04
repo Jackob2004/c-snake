@@ -40,7 +40,7 @@ game_state_t *init_game(char *player_name) {
 
 void play_again_menu() {
     const int COLUMNS = 50;
-    point_t spawn_point = calc_middle_position(COLUMNS, 1);
+    point_t spawn_point = calc_middle_position(COLUMNS, 1, stdscr);
     spawn_point.y = 5;
 
     char *options[] = {"Yes", "No"};
@@ -53,7 +53,7 @@ void play_again_menu() {
 
     clear();
     refresh();
-    chosen_action();
+    chosen_action(NULL);
 }
 
 void game_over(game_state_t *game_state) {
@@ -117,7 +117,7 @@ void game_clear_up(game_state_t *game_state) {
     free(game_state);
 }
 
-void start_game_loop() {
+void start_game_loop(void *ptr) {
     game_state_t *game_state = init_game(get_player_name());
 
     const double MS_PER_UPDATE = 150.0;

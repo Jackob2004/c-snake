@@ -24,6 +24,6 @@ typedef struct GameState {
     player_t player;
 } game_state_t;
 
-void start_game_loop();
+void start_game_loop(void *ptr);
 
 #endif //SNAKE_GAME_H

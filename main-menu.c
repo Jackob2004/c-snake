@@ -1,16 +1,18 @@
 #include "main-menu.h"
 
-void scoreboard() {
-    printw("Noting there yet...");
+#include "scoreboard.h"
+
+void scoreboard(void *ptr) {
+    open_scoreboard(NULL);
 }
 
-void bye_message() {
+void bye_message(void *ptr) {
     printw("Bye...");
 }
 
 void stop() {
     const int COLUMNS = 50;
-    const point_t spawn_point = calc_middle_position(COLUMNS, 4);
+    const point_t spawn_point = calc_middle_position(COLUMNS, 4, stdscr);
     char *options[] = {"Yes", "No"};
     MenuAction actions[] = {bye_message, main_menu};
 
@@ -20,12 +22,12 @@ void stop() {
 
     clear();
     refresh();
-    chosen_action();
+    chosen_action(NULL);
 }
 
-void main_menu() {
+void main_menu(void *ptr) {
     const int COLUMNS = 80;
-    const point_t spawn_point = calc_middle_position(COLUMNS, 5);
+    const point_t spawn_point = calc_middle_position(COLUMNS, 5, stdscr);
     char *options[] = {"Start", "Scoreboard", "Exit"};
     MenuAction actions[] = {start_game_loop, scoreboard, stop};
 
@@ -35,5 +37,5 @@ void main_menu() {
 
     clear();
     refresh();
-    chosen_action();
+    chosen_action(NULL);
 }
