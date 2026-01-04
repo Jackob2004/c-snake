@@ -4,7 +4,6 @@
 #include "ncurses.h"
 #include "stdlib.h"
 #include "array.h"
-#include <string.h>
 #include "point.h"
 #include "string-util.h"
 

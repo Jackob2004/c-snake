@@ -103,7 +103,7 @@ int compare_scores(const void *a, const void *b) {
     const player_t *p1 = a;
     const player_t *p2 = b;
 
-    return (p1->score - p2->score);
+    return (p2->score - p1->score);
 }
 
 void sort_players_by_score(const players_t *players) {
@@ -112,26 +112,10 @@ void sort_players_by_score(const players_t *players) {
     qsort(players->items, players->length, sizeof(player_t), compare_scores);
 }
 
-char *concatenate(const char *a, const char *b, const char *c) {
-    size_t alen = strlen(a);
-    size_t blen = strlen(b);
-    size_t clen = strlen(c);
-    char *res = malloc(alen + blen + clen + 1);
-
-    if (res == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
-    memcpy(res, a, alen);
-    memcpy(res + alen, b, blen);
-    memcpy(res + alen + blen, c, clen + 1);
-
-    return res;
-}
 
 char *get_player_name() {
     const char info[] = "Enter your name: ";
-    const point_t center = calc_middle_position(strlen(info),1);
+    const point_t center = calc_middle_position(strlen(info),1, stdscr);
     mvprintw(center.y - 1, center.x, info);
 
     char underline[MAX_NAME_LENGTH + 1];
