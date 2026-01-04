@@ -19,6 +19,14 @@ add_executable(snake main.c
         point.h
         main-menu.c
         main-menu.h
-        point.c)
+        point.c
+        player.c
+        player.h
+        array.h
+        scoreboard.c
+        scoreboard.h
+        string-util.c
+        string-util.h
+)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})
