@@ -8,5 +8,5 @@ typedef struct Point {
     short unsigned int y;
 } point_t;
 
-point_t calc_middle_position(int target_width, int target_height);
+point_t calc_middle_position(int target_width, int target_height, WINDOW *win);
 #endif //SNAKE_POINT_H
