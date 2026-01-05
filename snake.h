@@ -29,6 +29,7 @@ void render_snake(WINDOW *window, const snake_t *snake);
 void change_snake_direction(snake_t *snake, int key_code);
 bool collides_snake_head(const snake_t *snake, int x, int y);
 bool snake_collides_itself(const snake_t *snake);
+bool collides_snake_body(const snake_t *snake, point_t position);
 void destroy_snake(snake_t *snake);
 
 #endif //SNAKE_SNAKE_H

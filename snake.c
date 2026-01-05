@@ -106,6 +106,16 @@ bool snake_collides_itself(const snake_t *snake) {
     return false;
 }
 
+bool collides_snake_body(const snake_t *snake, const point_t position) {
+    for (int i = 1; i < snake->length; i++) {
+        if (snake->items[i].position.x == position.x && snake->items[i].position.y == position.y) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void destroy_snake(snake_t *snake) {
     free(snake->items);
     free(snake);
