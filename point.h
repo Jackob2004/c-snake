@@ -2,6 +2,7 @@
 #define SNAKE_POINT_H
 
 #include <ncurses.h>
+#include <stdlib.h>
 
 typedef struct Point {
     short unsigned int x;
@@ -9,4 +10,5 @@ typedef struct Point {
 } point_t;
 
 point_t calc_middle_position(int target_width, int target_height, WINDOW *win);
+point_t random_point(int xMax, int yMax);
 #endif //SNAKE_POINT_H

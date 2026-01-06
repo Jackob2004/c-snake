@@ -1,8 +1,5 @@
 #include "apple.h"
 
-#include <stdlib.h>
-#include <time.h>
-
 apple_t *create_apple() {
     apple_t *apple = (apple_t *)malloc(sizeof(apple_t));
     if (apple == NULL) {
@@ -16,12 +13,9 @@ apple_t *create_apple() {
     return apple;
 }
 
-void respawn_apple(apple_t *apple, const int maxX, const int maxY) {
-    const int x = (rand() % (maxX - 2)) + 1;
-    const int y = (rand() % (maxY - 2)) + 1;
-
-    apple->position.x = x;
-    apple->position.y = y;
+void respawn_apple(apple_t *apple, const point_t point) {
+    apple->position.x = point.x;
+    apple->position.y = point.y;
     apple->is_alive = true;
 }
 

@@ -3,6 +3,7 @@
 
 #include <ncurses.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "point.h"
 
 typedef struct Apple {
@@ -13,7 +14,7 @@ typedef struct Apple {
 } apple_t;
 
 apple_t *create_apple();
-void respawn_apple(apple_t *apple, int maxX, int maxY);
+void respawn_apple(apple_t *apple, point_t point);
 void render_apple(const apple_t *apple, WINDOW *win);
 void destroy_apple(apple_t *apple);
 

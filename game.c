@@ -1,6 +1,14 @@
 #include "game.h"
 
-#include "player.h"
+void spawn_new_apple(game_state_t *game_state) {
+    point_t point;
+
+    do {
+        point = random_point(game_state->window_width, game_state->window_height);
+    } while (collides_snake_body(game_state->snake, point));
+
+    respawn_apple(game_state->apple, point);
+}
 
 game_state_t *init_game(char *player_name) {
     game_state_t *game_state = malloc(sizeof(game_state_t));
@@ -30,7 +38,7 @@ game_state_t *init_game(char *player_name) {
     const point_t spawn_point = {5,5};
     game_state->snake = create_snake(spawn_point);
     game_state->apple = create_apple();
-    respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
+    spawn_new_apple(game_state);
 
     const player_t player = {player_name, 0};
     game_state->player = player;
@@ -94,7 +102,7 @@ void update(game_state_t *game_state) {
     }
 
     if (collides_snake_head(game_state->snake, game_state->apple->position.x, game_state->apple->position.y)) {
-        respawn_apple(game_state->apple, game_state->window_width, game_state->window_height);
+        spawn_new_apple(game_state);
         grow_snake(game_state->snake);
         game_state->player.score += 1;
     }
