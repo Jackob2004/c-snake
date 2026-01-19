@@ -1,6 +1,6 @@
 #include "game.h"
 
-void spawn_new_apple(game_state_t *game_state) {
+void spawn_new_apple(const game_state_t *game_state) {
     point_t point;
 
     do {
@@ -32,7 +32,6 @@ game_state_t *init_game(char *player_name) {
     nodelay(game_state->game_window, TRUE);
     keypad(game_state->game_window, TRUE);
 
-    game_state->status = RUNNING;
     getmaxyx(game_state->game_window, game_state->window_height, game_state->window_width);
 
     const point_t spawn_point = {5,5};
@@ -42,6 +41,7 @@ game_state_t *init_game(char *player_name) {
 
     const player_t player = {player_name, 0};
     game_state->player = player;
+    game_state->status = RUNNING;
 
     return game_state;
 }
@@ -80,6 +80,7 @@ void process_input(game_state_t *game_state, const int key) {
 
     if (key == 'p') {
         game_state->status = (game_state->status == PAUSED) ? RUNNING : PAUSED;
+        box(game_state->game_window, 0, 0);
         mvwprintw(game_state->game_window, 0,0, "Game Paused");
     }
 
@@ -101,7 +102,7 @@ void update(game_state_t *game_state) {
         return;
     }
 
-    if (collides_snake_head(game_state->snake, game_state->apple->position.x, game_state->apple->position.y)) {
+    if (collides_snake_head(game_state->snake, game_state->apple->position)) {
         spawn_new_apple(game_state);
         grow_snake(game_state->snake);
         game_state->player.score += 1;
@@ -126,7 +127,7 @@ void game_clear_up(game_state_t *game_state) {
 }
 
 void start_game_loop(void *ptr) {
-    game_state_t *game_state = init_game(get_player_name());
+    game_state_t *game_state = init_game(player_name_input_field());
 
     const double MS_PER_UPDATE = 150.0;
     struct timespec last_time;

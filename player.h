@@ -21,7 +21,7 @@ typedef struct Players {
     player_t *items;
 } players_t;
 
-char *get_player_name();
+char *player_name_input_field();
 int save_player_best_score(player_t player);
 strings_t *get_sorted_players();
 #endif //SNAKE_PLAYER_H

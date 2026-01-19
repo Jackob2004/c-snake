@@ -4,6 +4,7 @@
 #include "game.h"
 #include "point.h"
 #include "menu.h"
+#include "scoreboard.h"
 
 void main_menu(void *ptr);
 #endif //SNAKE_MAIN_MENU_H

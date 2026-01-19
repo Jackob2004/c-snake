@@ -1,7 +1,7 @@
 #include "string-util.h"
 
-char *get_str(const int max_size) {
-    char *str = malloc(sizeof(char) * max_size + 1);
+char *str_from_user_input(const int max_size) {
+    char *str = malloc(sizeof(char) * (max_size + 1));
     int idx = 0;
 
     nocbreak();
@@ -25,7 +25,7 @@ char *get_str(const int max_size) {
 }
 
 char *int_to_str(const int number, const int size) {
-    char *str = malloc(sizeof(char) * (size) + 1);
+    char *str = malloc(sizeof(char) * (size + 1));
     sprintf(str, "%d", number);
 
     return str;
@@ -46,6 +46,25 @@ char *concatenate(const char *a, const char *b, const char *c) {
     memcpy(res + alen + blen, c, clen + 1);
 
     return res;
+}
+
+void add_trailing_spaces(const size_t number_of_items, const int max_length, char **strings) {
+    for (int i = 0; i < number_of_items; i++) {
+        char *new_option_ptr = malloc((max_length + 1) * sizeof(char));
+
+        if (new_option_ptr == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        memset(new_option_ptr, ' ', max_length);
+        new_option_ptr[max_length] = '\0';
+
+        size_t len = strlen(strings[i]);
+        len = (len > max_length) ? max_length: len;
+        memcpy(new_option_ptr, strings[i], len);
+
+        strings[i] = new_option_ptr;
+    }
 }
 
 strings_t *init_strings() {

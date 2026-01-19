@@ -1,6 +1,6 @@
 #include "point.h"
 
-point_t calc_middle_position(const int target_width, const int target_height, WINDOW *win) {
+point_t calc_middle_position(const int target_width, const int target_height, const WINDOW *win) {
     int maxX, maxY;
     getmaxyx(win, maxY, maxX);
 
@@ -13,8 +13,8 @@ point_t calc_middle_position(const int target_width, const int target_height, WI
 
 point_t random_point(const int xMax, const int yMax) {
     const point_t point = {
-        .x = (rand() % (xMax- 2)) + 1,
-        .y = (rand() % (yMax- 2)) + 1
+        .x = (rand() % (xMax - 2)) + 1,
+        .y = (rand() % (yMax - 2)) + 1
     };
 
     return point;

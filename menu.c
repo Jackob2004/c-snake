@@ -1,25 +1,6 @@
 #include "menu.h"
 
-void add_trailing_spaces(const size_t number_of_items, const int max_length, char **strings) {
-    for (int i = 0; i < number_of_items; i++) {
-        char *new_option_ptr = malloc(max_length + 1 * sizeof(char));
-
-        if (new_option_ptr == NULL) {
-            exit(EXIT_FAILURE);
-        }
-
-        memset(new_option_ptr, ' ', max_length);
-        new_option_ptr[max_length] = '\0';
-
-        size_t len = strlen(strings[i]);
-        len = (len > max_length) ? max_length: len;
-        memcpy(new_option_ptr, strings[i], len);
-
-        strings[i] = new_option_ptr;
-    }
-}
-
-void update_menu(const menu_t *menu) {
+void render_menu(const menu_t *menu) {
     for (int i = 0; i < menu->number_of_items; i++) {
         if (i == menu->selected) {
             wattron(menu->window, A_REVERSE);
@@ -29,7 +10,7 @@ void update_menu(const menu_t *menu) {
     }
 }
 
-menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **options, char *title, MenuAction *actions) {
+menu_t *create_menu(const int columns, const point_t spawn_point, const size_t number_of_items, char **options, char *title, MenuAction *actions) {
     menu_t *menu = (menu_t *)malloc(sizeof(menu_t));
     if (menu == NULL) {
         exit(EXIT_FAILURE);
@@ -45,7 +26,7 @@ menu_t *create_menu(int columns, point_t point, size_t number_of_items, char **o
 
     menu->selected = 0;
     const int rows = (int)menu->number_of_items + 2;
-    menu->window = newwin(rows, columns, point.y, point.x);
+    menu->window = newwin(rows, columns, spawn_point.y, spawn_point.x);
     box(menu->window, '|', 0);
 
     return menu;
@@ -56,7 +37,7 @@ MenuAction process_menu_input(menu_t *menu) {
     keypad(menu->window, true);
 
     while (1) {
-        update_menu(menu);
+        render_menu(menu);
 
         const int input = wgetch(menu->window);
 
@@ -67,7 +48,7 @@ MenuAction process_menu_input(menu_t *menu) {
         if (input == KEY_UP) {
             menu->selected = (menu->selected == 0) ? 0 : menu->selected - 1;
         } else if (input == KEY_DOWN) {
-            menu->selected = (menu->selected + 1 > menu->number_of_items - 1) ? menu->selected : menu->selected + 1;
+            menu->selected = (menu->selected + 1 >= menu->number_of_items) ? menu->selected : menu->selected + 1;
         }
     }
 

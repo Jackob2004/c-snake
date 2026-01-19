@@ -30,7 +30,6 @@ void destroy_scoreboard(scoreboard_t *scoreboard) {
     free(scoreboard);
 }
 
-
 void display_current_page(void *ptr) {
     scoreboard_t *scoreboard = (scoreboard_t *)ptr;
     wclear(scoreboard->win);

@@ -112,8 +112,7 @@ void sort_players_by_score(const players_t *players) {
     qsort(players->items, players->length, sizeof(player_t), compare_scores);
 }
 
-
-char *get_player_name() {
+char *player_name_input_field() {
     const char info[] = "Enter your name: ";
     const point_t center = calc_middle_position(strlen(info),1, stdscr);
     mvprintw(center.y - 1, center.x, info);
@@ -124,7 +123,7 @@ char *get_player_name() {
 
     mvprintw(center.y + 1, center.x, "%s", underline);
     move(center.y + 1, center.x);
-    char *name = get_str(MAX_NAME_LENGTH);
+    char *name = str_from_user_input(MAX_NAME_LENGTH);
 
     if (strlen(name) == 0) {
         strcpy(name, "unknown");

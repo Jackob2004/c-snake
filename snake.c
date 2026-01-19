@@ -91,14 +91,14 @@ void change_snake_direction(snake_t *snake, const int key_code) {
     }
 }
 
-bool collides_snake_head(const snake_t *snake, const int x, const int y) {
+bool collides_snake_head(const snake_t *snake, const point_t point) {
     const body_part_t head = snake->items[0];
-    return head.position.x == x && head.position.y == y;
+    return head.position.x == point.x && head.position.y == point.y;
 }
 
 bool snake_collides_itself(const snake_t *snake) {
     for (int i = 1; i < snake->length; i++) {
-        if (collides_snake_head(snake, snake->items[i].position.x, snake->items[i].position.y)) {
+        if (collides_snake_head(snake, snake->items[i].position)) {
             return true;
         }
     }
