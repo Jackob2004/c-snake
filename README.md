@@ -1,6 +1,8 @@
 # Snake
 Terminal Snake game clone.
 
+[Game Demo](https://youtu.be/YkqQpnsUE7M)
+
 Tools used:
 - C language
 - ncurses library to make textual user interfaces easily
