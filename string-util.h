@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 
 typedef struct Strings {
     size_t length;

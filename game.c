@@ -1,5 +1,29 @@
 #include "game.h"
 
+#ifdef _WIN32
+    #include <windows.h>
+    /* windows wrapper */
+    int clock_gettime(int dummy, struct timespec *spec) {
+        static LARGE_INTEGER frequency;
+        static int initialized = 0;
+        LARGE_INTEGER count;
+
+        if (!initialized) {
+            QueryPerformanceFrequency(&frequency);
+            initialized = 1;
+        }
+
+        QueryPerformanceCounter(&count);
+
+        spec->tv_sec = count.QuadPart / frequency.QuadPart;
+        spec->tv_nsec = (long)((count.QuadPart % frequency.QuadPart) * 1000000000LL / frequency.QuadPart);
+        return 0;
+    }
+#define CLOCK_MONOTONIC 0
+#else
+#include <time.h>
+#endif
+
 void spawn_new_apple(const game_state_t *game_state) {
     point_t point;
 

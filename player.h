@@ -1,7 +1,7 @@
 #ifndef SNAKE_PLAYER_H
 #define SNAKE_PLAYER_H
 
-#include "ncurses.h"
+#include "curses.h"
 #include "stdlib.h"
 #include "array.h"
 #include "point.h"

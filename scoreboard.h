@@ -1,6 +1,6 @@
 #ifndef SNAKE_SCOREBOARD_H
 #define SNAKE_SCOREBOARD_H
-#include <ncurses.h>
+#include <curses.h>
 
 #include "player.h"
 #include "main-menu.h"

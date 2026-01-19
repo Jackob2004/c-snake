@@ -1,7 +1,7 @@
 #ifndef SNAKE_APPLE_H
 #define SNAKE_APPLE_H
 
-#include <ncurses.h>
+#include <curses.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "point.h"

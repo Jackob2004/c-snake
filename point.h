@@ -1,7 +1,7 @@
 #ifndef SNAKE_POINT_H
 #define SNAKE_POINT_H
 
-#include <ncurses.h>
+#include <curses.h>
 #include <stdlib.h>
 
 typedef struct Point {

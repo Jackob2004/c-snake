@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <stdlib.h>
 #include "game.h"
 #include "main-menu.h"
