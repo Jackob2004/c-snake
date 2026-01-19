@@ -25,4 +25,13 @@ Room for improvement:
 - I didn't consider the fact that the game screen grows with the terminal window size
 - Vertical movement may seem a little bit off due to the font size
 
-
+<details>
+  <summary>additional sources of help</summary>
+  <ul>
+    <li>Game loop design https://gameprogrammingpatterns.com/game-loop.html</li>
+    <li>Function pointers https://stackoverflow.com/questions/840501/how-do-function-pointers-in-c-work</li>
+    <li>Reading strings in ncurses https://stackoverflow.com/questions/26920261/read-a-string-with-ncurses-in-c$a</li>
+    <li>Random int in C https://stackoverflow.com/questions/822323/how-to-generate-a-random-int-in-c$a</li>
+    <li>Measure a time interval in C https://stackoverflow.com/questions/2150291/how-do-i-measure-a-time-interval-in-c</li>
+  </ul>
+</details>
